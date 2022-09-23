@@ -209,11 +209,6 @@ return [
     |
     */
 
-    'aliases' => Facade::defaultAliases()->merge([
-        // 'ExampleClass' => App\Example\ExampleClass::class,
-        $alias = [
-            'InterventionImage' => Intervention\Image\Facades\Image::class
-            ]
-    ])->toArray(),
+    'aliases' => Facade::defaultAliases()->merge([ 'InterventionImage' => Intervention\Image\Facades\Image::class  ])->toArray(),
 
 ];
