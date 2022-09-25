@@ -62,7 +62,7 @@ class ShopController extends Controller
         $shop->is_selling = $request->is_selling;
 
         if(!is_null($imageFile) && $imageFile->isValid()){
-            $shop->filename = Storage::putFile('public/shops', $imageFile);
+            $shop->filename = Storage::putFile('', $imageFile); //第一引数をからにすることで画像を表示
         }
 
         $shop->save();
