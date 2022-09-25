@@ -19,7 +19,7 @@
                         <div class="border rounded-md p-4">
 
                         <div class="text-xl">{{ $image->title }}</div>
-                            <x-thumbnail :filename="$shop->filename" type="products"/>
+                            <x-thumbnail :filename="$image->filename" type="products"/>
                         </div>
                         </a>
                     </div>
