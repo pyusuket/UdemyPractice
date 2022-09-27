@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UploadImageRequest;
 use App\Models\Owner;
 use Illuminate\Support\Facades\Storage;
+use App\Services\ImageService;
+
 
 
 class ImageController extends Controller
@@ -20,7 +22,7 @@ class ImageController extends Controller
         $this->middleware(function ($request, $next) {
                 $id = $request->route()->parameter('image');
                 if(!is_null($id)){
-                    $ImageOwnerId = Image::findOrFail($id)->owner->id;
+                    $ImagesOwnerId = Image::findOrFail($id)->owner->id;
                     $ImageId = (int)$imagesOwnerId;
                     if($imageId !== Auth::id()){
                     abort(404);
@@ -55,17 +57,19 @@ class ImageController extends Controller
      */
     public function store(UploadImageRequest $request)
     {
+
         $imageFiles = $request->file('files'); //配列でファイルを取得
             if(!is_null($imageFiles)){
             foreach($imageFiles as $imageFile){ // それぞれ処理
-                Storage::putFile('public/shops', $imageFile);
+                $fileNameToStore = ImageService::upload($imageFile, 'products');
+
                 Image::create([
                 'owner_id' => Auth::id(),
-                'filename' => $imageFile
+                'filename' => $fileNameToStore
             ]);
             }
             }
-        return redirect()->route('owner.images.index')->with(['message' , '画像登録を更新しました。','status' => 'info']);
+        return redirect()->route('owner.images.index')->with(['message' , '画像登録を実施しました。','status' => 'info']);
 
     }
 

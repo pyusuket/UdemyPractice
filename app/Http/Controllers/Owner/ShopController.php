@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\UploadImageRequest;
 use InterventionImage;
+use App\Services\ImageService;
+
 class ShopController extends Controller
 {
     public function __construct()
@@ -53,7 +55,8 @@ class ShopController extends Controller
 
         $imageFile = $request->image; //一時保存
         if(!is_null($imageFile) && $imageFile->isValid() ){
-        Storage::putFile('public/shops', $imageFile);
+        // Storage::putFile('public/shops/', $imageFile); リサイズなしの場合
+        $fileNameToStore = ImageService::upload($imageFile, 'shops');
         }
 
         $shop = Shop::findOrFail($id);
@@ -62,7 +65,7 @@ class ShopController extends Controller
         $shop->is_selling = $request->is_selling;
 
         if(!is_null($imageFile) && $imageFile->isValid()){
-            $shop->filename = Storage::putFile('', $imageFile); //第一引数をからにすることで画像を表示
+            $shop->filename = $fileNameToStore; //第一引数をからにすることで画像を表示
         }
 
         $shop->save();
