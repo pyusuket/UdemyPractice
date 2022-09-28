@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ImageService
 {
-    public static function upload($imageFile, $foldername){
+    public static function upload($imageFile, $folderName){
         // dd($imageFile);
 
         if(is_array($imageFile)){
